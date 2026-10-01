@@ -1,0 +1,2615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DPM 💞 DUST — Our Universe</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:Georgia, "Times New Roman", serif;
+    background:#03030b;
+    color:white;
+    overflow-x:hidden;
+}
+
+/* =========================
+   STAR BACKGROUND
+========================= */
+
+#stars,
+#stars2,
+#stars3{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:0;
+}
+
+.star{
+    position:absolute;
+    width:2px;
+    height:2px;
+    background:white;
+    border-radius:50%;
+    animation:twinkle 3s infinite ease-in-out;
+}
+
+@keyframes twinkle{
+    0%,100%{opacity:.2;transform:scale(.7)}
+    50%{opacity:1;transform:scale(1.5)}
+}
+
+/* =========================
+   SHOOTING STAR
+========================= */
+
+.shooting-star{
+    position:fixed;
+    width:120px;
+    height:2px;
+    background:linear-gradient(90deg,transparent,white);
+    transform:rotate(-35deg);
+    opacity:0;
+    z-index:2;
+    pointer-events:none;
+}
+
+.shooting-star.active{
+    animation:shoot 1.5s linear;
+}
+
+@keyframes shoot{
+    0%{
+        opacity:0;
+        transform:translate(0,0) rotate(-35deg);
+    }
+    15%{
+        opacity:1;
+    }
+    100%{
+        opacity:0;
+        transform:translate(-500px,350px) rotate(-35deg);
+    }
+}
+
+/* =========================
+   SECRET SCREEN
+========================= */
+
+#secretScreen{
+    position:fixed;
+    inset:0;
+    z-index:100;
+    background:
+        radial-gradient(circle at center,#161333 0%,#05050d 45%,#000 100%);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    transition:opacity 1.2s ease, visibility 1.2s ease;
+}
+
+#secretScreen.hide{
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+}
+
+.secret-box{
+    width:min(90%,480px);
+    padding:40px 25px;
+    border:1px solid rgba(255,255,255,.15);
+    border-radius:25px;
+    background:rgba(255,255,255,.04);
+    backdrop-filter:blur(12px);
+    box-shadow:0 0 60px rgba(150,100,255,.15);
+}
+
+.lock{
+    font-size:45px;
+    margin-bottom:20px;
+}
+
+.secret-box h1{
+    font-size:30px;
+    margin-bottom:12px;
+}
+
+.secret-box p{
+    color:#c7c4d8;
+    line-height:1.7;
+    margin-bottom:25px;
+}
+
+.date-input{
+    width:100%;
+    padding:14px;
+    border-radius:12px;
+    border:1px solid rgba(255,255,255,.2);
+    background:rgba(0,0,0,.4);
+    color:white;
+    text-align:center;
+    font-size:18px;
+    outline:none;
+    letter-spacing:2px;
+}
+
+.enter-btn,
+.main-btn{
+    margin-top:18px;
+    border:none;
+    padding:13px 25px;
+    border-radius:30px;
+    background:linear-gradient(90deg,#8b5cf6,#ec4899);
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.3s;
+    box-shadow:0 0 25px rgba(236,72,153,.25);
+}
+
+.enter-btn:hover,
+.main-btn:hover{
+    transform:translateY(-3px) scale(1.03);
+    box-shadow:0 0 35px rgba(236,72,153,.5);
+}
+
+.error{
+    color:#ff8da8;
+    margin-top:15px;
+    min-height:20px;
+}
+
+/* =========================
+   ACCESS GRANTED
+========================= */
+
+#access{
+    position:fixed;
+    inset:0;
+    z-index:90;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    background:#020208;
+}
+
+#access.show{
+    display:flex;
+    animation:accessFade 2.8s forwards;
+}
+
+.access-content h1{
+    font-size:38px;
+    margin-bottom:15px;
+    animation:pulse 1.5s infinite;
+}
+
+.access-content p{
+    color:#ccc;
+    font-size:18px;
+}
+
+@keyframes accessFade{
+    0%{opacity:1}
+    75%{opacity:1}
+    100%{opacity:0;visibility:hidden}
+}
+
+@keyframes pulse{
+    50%{text-shadow:0 0 30px #ec4899}
+}
+
+/* =========================
+   MAIN WEBSITE
+========================= */
+
+#main{
+    opacity:0;
+    visibility:hidden;
+    transition:opacity 1.5s ease;
+}
+
+#main.show{
+    opacity:1;
+    visibility:visible;
+}
+
+section{
+    position:relative;
+    min-height:100vh;
+    z-index:5;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:80px 20px;
+}
+
+/* =========================
+   HERO
+========================= */
+
+.hero{
+    text-align:center;
+    overflow:hidden;
+}
+
+.moon{
+    position:absolute;
+    width:320px;
+    height:320px;
+    border-radius:50%;
+    background:radial-gradient(circle,#34296e,#14122d 55%,transparent 70%);
+    filter:blur(2px);
+    opacity:.6;
+}
+
+.hero-content{
+    position:relative;
+    z-index:3;
+}
+
+.small-date{
+    letter-spacing:6px;
+    color:#aaa4c8;
+    font-size:13px;
+    margin-bottom:20px;
+}
+
+.hero h1{
+    font-size:clamp(45px,10vw,100px);
+    font-weight:400;
+    letter-spacing:3px;
+    background:linear-gradient(90deg,#fff,#e5c6ff,#ffb8dc,#fff);
+    -webkit-background-clip:text;
+    color:transparent;
+    animation:shine 5s infinite linear;
+}
+
+@keyframes shine{
+    0%{filter:brightness(.8)}
+    50%{filter:brightness(1.4)}
+    100%{filter:brightness(.8)}
+}
+
+.hero-sub{
+    margin:25px auto;
+    max-width:600px;
+    color:#c5c1d3;
+    font-style:italic;
+    font-size:18px;
+    line-height:1.8;
+}
+
+.scroll-text{
+    margin-top:55px;
+    color:#8d89a5;
+    font-size:12px;
+    letter-spacing:3px;
+    animation:bounce 2s infinite;
+}
+
+@keyframes bounce{
+    50%{transform:translateY(8px)}
+}
+
+/* =========================
+   COMMON
+========================= */
+
+.container{
+    width:min(1050px,100%);
+    margin:auto;
+}
+
+.section-title{
+    text-align:center;
+    margin-bottom:60px;
+}
+
+.section-title span{
+    display:block;
+    color:#8e7bbd;
+    letter-spacing:4px;
+    font-size:12px;
+    margin-bottom:12px;
+}
+
+.section-title h2{
+    font-size:clamp(32px,6vw,55px);
+    font-weight:400;
+}
+
+.section-title p{
+    margin-top:15px;
+    color:#aaa6ba;
+}
+
+/* =========================
+   TURNING POINT
+========================= */
+
+.turning{
+    text-align:center;
+}
+
+.big-star{
+    width:150px;
+    height:150px;
+    margin:0 auto 40px;
+    border-radius:50%;
+    background:radial-gradient(circle,#fff 0%,#ffd8ef 4%,#c084fc 15%,transparent 60%);
+    box-shadow:0 0 80px #a855f7;
+    animation:starPulse 3s infinite;
+}
+
+@keyframes starPulse{
+    50%{
+        transform:scale(1.12);
+        box-shadow:0 0 130px #c084fc;
+    }
+}
+
+.turning h2{
+    font-size:clamp(35px,7vw,65px);
+    font-weight:400;
+}
+
+.turning-date{
+    color:#e4b5ff;
+    letter-spacing:5px;
+    margin:20px 0;
+}
+
+.turning-text{
+    max-width:650px;
+    margin:auto;
+    color:#b8b4c5;
+    line-height:2;
+    font-size:18px;
+}
+
+/* =========================
+   FIRST MESSAGE
+========================= */
+
+.message-section{
+    background:radial-gradient(circle at center,rgba(120,80,180,.08),transparent 55%);
+}
+
+.chat{
+    max-width:700px;
+    margin:auto;
+}
+
+.message{
+    width:fit-content;
+    max-width:80%;
+    padding:15px 18px;
+    margin:18px 0;
+    border-radius:18px;
+    line-height:1.6;
+    opacity:0;
+    transform:translateY(20px);
+    animation:messageIn .8s forwards;
+}
+
+.message.left{
+    background:rgba(255,255,255,.07);
+    border:1px solid rgba(255,255,255,.08);
+}
+
+.message.right{
+    margin-left:auto;
+    background:linear-gradient(135deg,rgba(139,92,246,.3),rgba(236,72,153,.2));
+    border:1px solid rgba(236,72,153,.15);
+}
+
+.message small{
+    display:block;
+    color:#9993aa;
+    font-size:11px;
+    margin-bottom:5px;
+}
+
+@keyframes messageIn{
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* =========================
+   PHOTO GALLERY
+========================= */
+
+.gallery{
+    display:grid;
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:25px;
+    width:100%;
+    max-width:1350px;
+}
+
+.photo-card{
+    position:relative;
+    aspect-ratio:1;
+    overflow:hidden;
+    border-radius:16px;
+    background:linear-gradient(135deg,#241a3d,#3a2350);
+    cursor:pointer;
+    border:1px solid rgba(255,255,255,.08);
+    transition:.4s;
+}
+
+.photo-card:hover{
+    transform:scale(1.04);
+    box-shadow:0 0 30px rgba(255,143,216,.3);
+}
+
+.photo-card img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    transition:.6s;
+}
+
+.photo-card:hover img{
+    transform:scale(1.08);
+}
+
+@media(max-width:900px){
+    .gallery{grid-template-columns:repeat(2,minmax(0,1fr));}
+}
+@media(max-width:520px){
+    .gallery{grid-template-columns:1fr;}
+}
+
+.photo-caption{
+    position:absolute;
+    bottom:0;
+    left:0;
+    right:0;
+    padding:40px 18px 18px;
+    background:linear-gradient(transparent,rgba(0,0,0,.85));
+}
+
+/* =========================
+   LIGHTBOX
+========================= */
+
+#lightbox{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.9);
+    z-index:200;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+}
+
+#lightbox.show{
+    display:flex;
+}
+
+#lightbox img{
+    max-width:95%;
+    max-height:85vh;
+    border-radius:15px;
+    box-shadow:0 0 80px rgba(255,255,255,.12);
+}
+
+.close-lightbox{
+    position:absolute;
+    top:20px;
+    right:25px;
+    font-size:35px;
+    cursor:pointer;
+}
+
+/* =========================
+   TIMELINE
+========================= */
+
+.timeline{
+    position:relative;
+    max-width:800px;
+    margin:auto;
+}
+
+.timeline::before{
+    content:"";
+    position:absolute;
+    left:50%;
+    top:0;
+    bottom:0;
+    width:1px;
+    background:linear-gradient(transparent,#7654aa,transparent);
+}
+
+.timeline-item{
+    position:relative;
+    width:50%;
+    padding:25px;
+}
+
+.timeline-item:nth-child(odd){
+    left:0;
+    text-align:right;
+}
+
+.timeline-item:nth-child(even){
+    left:50%;
+}
+
+.timeline-dot{
+    position:absolute;
+    width:13px;
+    height:13px;
+    border-radius:50%;
+    background:#e7c8ff;
+    box-shadow:0 0 20px #c084fc;
+    top:40px;
+}
+
+.timeline-item:nth-child(odd) .timeline-dot{
+    right:-6px;
+}
+
+.timeline-item:nth-child(even) .timeline-dot{
+    left:-6px;
+}
+
+.timeline-year{
+    color:#d7aaff;
+    font-size:28px;
+}
+
+.timeline-text{
+    color:#aaa6b8;
+    margin-top:8px;
+}
+
+/* =========================
+   COUNTDOWN
+========================= */
+
+.countdown{
+    display:flex;
+    justify-content:center;
+    gap:15px;
+    flex-wrap:wrap;
+    margin-top:40px;
+}
+
+.time-box{
+    min-width:90px;
+    padding:20px 15px;
+    border-radius:18px;
+    background:rgba(255,255,255,.05);
+    border:1px solid rgba(255,255,255,.08);
+    backdrop-filter:blur(10px);
+}
+
+.time-box strong{
+    display:block;
+    font-size:32px;
+    font-weight:400;
+}
+
+.time-box span{
+    color:#8e899e;
+    font-size:11px;
+    letter-spacing:2px;
+}
+
+/* =========================
+   HIDDEN STARS
+========================= */
+
+.secret-stars{
+    position:relative;
+    height:400px;
+    max-width:900px;
+    margin:auto;
+}
+
+.hidden-star{
+    position:absolute;
+    cursor:pointer;
+    color:#fff;
+    animation:twinkle 2s infinite;
+    font-size:20px;
+}
+
+.hidden-star:hover{
+    text-shadow:0 0 20px white;
+    transform:scale(1.4);
+}
+
+#hiddenMessage{
+    text-align:center;
+    margin-top:30px;
+    min-height:50px;
+    color:#d9b8ff;
+    font-style:italic;
+}
+
+/* =========================
+   FINAL
+========================= */
+
+.final{
+    text-align:center;
+    overflow:hidden;
+}
+
+.final-stars{
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+}
+
+.final h2{
+    font-size:clamp(45px,9vw,90px);
+    font-weight:400;
+    background:linear-gradient(90deg,#fff,#e9b8ff,#ffb4d5,#fff);
+    -webkit-background-clip:text;
+    color:transparent;
+}
+
+.final .four{
+    font-size:clamp(80px,18vw,180px);
+    line-height:.9;
+    text-shadow:0 0 60px rgba(192,132,252,.5);
+}
+
+.final-message{
+    max-width:650px;
+    margin:30px auto;
+    color:#bcb8c9;
+    line-height:2;
+    font-size:18px;
+}
+
+/* =========================
+   MUSIC BUTTON
+========================= */
+
+.music-btn{
+    position:fixed;
+    right:20px;
+    bottom:20px;
+    z-index:50;
+    width:48px;
+    height:48px;
+    border-radius:50%;
+    border:1px solid rgba(255,255,255,.15);
+    background:rgba(20,15,35,.75);
+    color:white;
+    cursor:pointer;
+    backdrop-filter:blur(10px);
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer{
+    position:relative;
+    z-index:5;
+    text-align:center;
+    padding:30px 20px 50px;
+    color:#696578;
+    font-size:12px;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:700px){
+
+    section{
+        padding:70px 18px;
+    }
+
+    .hero h1{
+        letter-spacing:1px;
+    }
+
+    .timeline::before{
+        left:10px;
+    }
+
+    .timeline-item,
+    .timeline-item:nth-child(even),
+    .timeline-item:nth-child(odd){
+        width:100%;
+        left:0;
+        text-align:left;
+        padding-left:40px;
+    }
+
+    .timeline-item:nth-child(odd) .timeline-dot,
+    .timeline-item:nth-child(even) .timeline-dot{
+        left:4px;
+        right:auto;
+    }
+
+    .photo-card{
+        height:240px;
+    }
+
+    .time-box{
+        min-width:75px;
+    }
+
+    .time-box strong{
+        font-size:25px;
+    }
+}
+
+/* =========================================================
+   FINAL SECRET + REQUEST LETTER + LOVE REVEAL
+========================================================= */
+
+.final-secret-area{
+    text-align:center;
+    margin-top:55px;
+}
+
+.final-secret-area .secret-label{
+    color:#8e7bbd;
+    letter-spacing:4px;
+    font-size:12px;
+    margin-bottom:14px;
+}
+
+.final-secret-area h3{
+    font-size:clamp(28px,5vw,45px);
+    font-weight:400;
+    margin-bottom:12px;
+}
+
+.final-secret-area p{
+    color:#aaa6ba;
+    line-height:1.8;
+}
+
+.final-secret-btn{
+    margin-top:22px;
+    border:1px solid rgba(236,72,153,.55);
+    padding:14px 30px;
+    border-radius:30px;
+    background:rgba(255,255,255,.04);
+    color:#ffd9ee;
+    cursor:pointer;
+    letter-spacing:2px;
+    transition:.4s;
+    box-shadow:0 0 25px rgba(236,72,153,.12);
+}
+
+.final-secret-btn:hover{
+    transform:translateY(-3px) scale(1.03);
+    background:linear-gradient(90deg,#8b5cf6,#ec4899);
+    box-shadow:0 0 40px rgba(236,72,153,.4);
+}
+
+.final-code-box{
+    display:none;
+    margin:22px auto 0;
+    max-width:360px;
+}
+
+.final-code-box.show{
+    display:block;
+    animation:fadeUp .7s ease;
+}
+
+.final-code-input{
+    width:100%;
+    padding:14px 18px;
+    border-radius:14px;
+    border:1px solid rgba(255,255,255,.16);
+    background:rgba(0,0,0,.35);
+    color:#fff;
+    outline:none;
+    text-align:center;
+    font-size:16px;
+    letter-spacing:3px;
+}
+
+.final-code-submit{
+    margin-top:12px;
+    border:0;
+    padding:12px 25px;
+    border-radius:25px;
+    background:linear-gradient(90deg,#8b5cf6,#ec4899);
+    color:#fff;
+    cursor:pointer;
+}
+
+.final-code-error{
+    color:#ff8da8;
+    min-height:22px;
+    margin-top:12px;
+}
+
+/* LETTER OVERLAY */
+#letterOverlay{
+    position:fixed;
+    inset:0;
+    z-index:500;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:18px;
+    background:
+      radial-gradient(circle at 50% 20%,rgba(192,132,252,.18),transparent 35%),
+      rgba(1,1,7,.96);
+    backdrop-filter:blur(10px);
+    overflow:auto;
+}
+
+#letterOverlay.show{
+    display:flex;
+    animation:overlayIn .8s ease;
+}
+
+@keyframes overlayIn{
+    from{opacity:0}
+    to{opacity:1}
+}
+
+.letter-stage{
+    width:min(820px,95vw);
+    text-align:center;
+}
+
+/* ENVELOPE */
+.envelope-wrap{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    min-height:500px;
+}
+
+.envelope{
+    width:min(430px,82vw);
+    height:275px;
+    position:relative;
+    cursor:pointer;
+    perspective:1000px;
+    filter:drop-shadow(0 25px 45px rgba(0,0,0,.5));
+}
+
+.envelope-back{
+    position:absolute;
+    inset:0;
+    border-radius:16px;
+    background:linear-gradient(145deg,#321c42,#120d20);
+    border:1px solid rgba(236,72,153,.35);
+    box-shadow:0 0 45px rgba(139,92,246,.14);
+}
+
+.envelope-paper{
+    position:absolute;
+    left:8%;
+    right:8%;
+    bottom:4%;
+    height:83%;
+    background:#f8f0df;
+    border-radius:5px;
+    z-index:2;
+    transform:translateY(18px);
+    transition:1.1s cubic-bezier(.2,.8,.2,1);
+    box-shadow:0 8px 30px rgba(0,0,0,.35);
+}
+
+.envelope-flap{
+    position:absolute;
+    left:0;
+    top:0;
+    width:100%;
+    height:60%;
+    z-index:4;
+    background:linear-gradient(145deg,#492752,#191024);
+    clip-path:polygon(0 0,100% 0,50% 100%);
+    transform-origin:top center;
+    transition:1s cubic-bezier(.2,.8,.2,1);
+}
+
+.envelope-heart{
+    position:absolute;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+    z-index:5;
+    font-size:42px;
+    filter:drop-shadow(0 0 15px rgba(236,72,153,.8));
+    transition:.5s;
+}
+
+.envelope.open .envelope-flap{
+    transform:rotateX(180deg);
+}
+
+.envelope.open .envelope-paper{
+    transform:translateY(-95px);
+}
+
+.envelope.open .envelope-heart{
+    opacity:0;
+}
+
+.envelope-hint{
+    margin-top:28px;
+    color:#bcb5cc;
+    letter-spacing:2px;
+    font-size:13px;
+    animation:softPulse 2s infinite;
+}
+
+@keyframes softPulse{
+    50%{opacity:.5}
+}
+
+/* PAPER LETTER */
+.letter-paper{
+    display:none;
+    position:relative;
+    text-align:left;
+    max-height:88vh;
+    overflow-y:auto;
+    padding:clamp(28px,6vw,58px);
+    color:#352438;
+    background:
+      linear-gradient(rgba(255,255,255,.5),rgba(255,255,255,.5)),
+      #f7efde;
+    border-radius:12px;
+    box-shadow:0 25px 90px rgba(0,0,0,.7),0 0 40px rgba(236,72,153,.12);
+    border:1px solid rgba(232,200,106,.55);
+}
+
+.letter-paper.show{
+    display:block;
+    animation:paperIn 1s ease;
+}
+
+@keyframes paperIn{
+    from{opacity:0;transform:translateY(45px) scale(.96)}
+    to{opacity:1;transform:translateY(0) scale(1)}
+}
+
+.letter-paper:before{
+    content:"";
+    position:absolute;
+    inset:12px;
+    border:1px solid rgba(80,50,70,.12);
+    border-radius:8px;
+    pointer-events:none;
+}
+
+.letter-close{
+    position:absolute;
+    top:12px;
+    right:16px;
+    z-index:3;
+    border:0;
+    background:none;
+    color:#7c4c69;
+    font-size:28px;
+    cursor:pointer;
+}
+
+.letter-title{
+    text-align:center;
+    color:#7c4c69;
+    font-size:clamp(25px,5vw,38px);
+    margin-bottom:30px;
+    letter-spacing:1px;
+}
+
+.letter-content{
+    position:relative;
+    z-index:2;
+    font-family:Georgia,"Times New Roman",serif;
+    font-size:clamp(15px,2.3vw,17px);
+    line-height:1.85;
+}
+
+.letter-content p{
+    margin-bottom:17px;
+}
+
+.letter-content .center{
+    text-align:center;
+}
+
+.letter-content .highlight{
+    text-align:center;
+    color:#934d78;
+    font-size:1.08em;
+    font-weight:bold;
+    margin:25px 0;
+}
+
+.letter-content .request{
+    text-align:center;
+    color:#70435e;
+    font-weight:bold;
+    margin:25px 0;
+}
+
+.letter-content .ps{
+    border-top:1px dashed rgba(112,66,95,.3);
+    margin-top:28px;
+    padding-top:18px;
+}
+
+.letter-content blockquote{
+    text-align:center;
+    color:#934d78;
+    font-size:1.3em;
+    font-weight:bold;
+    margin:15px 0 8px;
+}
+
+.letter-continue{
+    display:block;
+    margin:30px auto 0;
+    padding:13px 28px;
+    border-radius:30px;
+    border:1px solid #a85b8a;
+    background:transparent;
+    color:#814765;
+    cursor:pointer;
+    letter-spacing:1.5px;
+    transition:.35s;
+}
+
+
+.letter-approve{
+    display:block;
+    margin:16px auto 0;
+    padding:13px 28px;
+    border-radius:30px;
+    border:1px solid #b45b91;
+    background:rgba(180,91,145,.08);
+    color:#8b426e;
+    cursor:pointer;
+    letter-spacing:1.2px;
+    font-family:Georgia,serif;
+    transition:.35s;
+}
+
+.letter-approve:hover{
+    color:#fff;
+    background:#8b426e;
+    box-shadow:0 0 25px rgba(180,91,145,.4);
+}
+
+.letter-continue:hover{
+    color:#fff;
+    background:#814765;
+    box-shadow:0 0 30px rgba(129,71,101,.4);
+}
+
+/* LOVE SCREEN */
+#loveReveal{
+    position:fixed;
+    inset:0;
+    z-index:600;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    text-align:center;
+    overflow:hidden;
+    background:
+      radial-gradient(circle at center,rgba(91,39,111,.3),transparent 45%),
+      #020108;
+}
+
+#loveReveal.show{
+    display:flex;
+    animation:loveBgIn 1s ease;
+}
+
+@keyframes loveBgIn{
+    from{opacity:0}
+    to{opacity:1}
+}
+
+#loveCanvas{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+}
+
+.love-text{
+    position:absolute;
+    z-index:2;
+    left:50%;
+    top:50%;
+    width:min(94vw,900px);
+    white-space:pre-line;
+    font-size:clamp(38px,5.6vw,64px);
+    line-height:1.05;
+    font-weight:400;
+    color:#fff;
+    opacity:0;
+    transform:translate(-50%,-50%) scale(.96);
+    text-shadow:
+      0 0 15px rgba(255,255,255,.7),
+      0 0 45px rgba(236,72,153,.6);
+    transition:opacity .8s ease,transform .8s ease;
+}
+
+.love-text.show{
+    opacity:1;
+    transform:translate(-50%,-50%) scale(1);
+}
+
+.love-text.final-line{
+    font-size:clamp(38px,5.8vw,66px);
+    line-height:1.08;
+    width:min(94vw,760px);
+}
+
+.love-small{
+    position:absolute;
+    z-index:2;
+    left:50%;
+    top:calc(50% + 105px);
+    width:min(90vw,760px);
+    margin:0;
+    color:#cfc6da;
+    letter-spacing:3px;
+    font-size:13px;
+    line-height:1.5;
+    opacity:0;
+    transform:translateX(-50%);
+    transition:1s;
+}
+
+.love-small.show{
+    opacity:1;
+    transform:translateX(-50%);
+}
+
+
+.love-replay{
+    position:absolute;
+    left:50%;
+    bottom:55px;
+    z-index:3;
+    margin-top:0;
+    padding:13px 28px;
+    border-radius:30px;
+    border:1px solid rgba(255,143,216,.55);
+    background:rgba(255,255,255,.045);
+    color:#ffd9ee;
+    font-family:Georgia,"Times New Roman",serif;
+    font-size:14px;
+    letter-spacing:1.8px;
+    cursor:pointer;
+    opacity:0;
+    transform:translateX(-50%) translateY(15px);
+    pointer-events:none;
+    transition:.7s ease;
+    box-shadow:0 0 25px rgba(236,72,153,.12);
+}
+.love-replay.show{
+    opacity:1;
+    transform:translateX(-50%) translateY(0);
+    pointer-events:auto;
+}
+.love-replay:hover{
+    background:linear-gradient(90deg,#8b5cf6,#ec4899);
+    color:#fff;
+    transform:translateX(-50%) translateY(-2px);
+    box-shadow:0 0 35px rgba(236,72,153,.35);
+}
+
+@media(max-width:600px){
+    .love-text{font-size:clamp(30px,10vw,52px);}
+    .love-text.final-line{font-size:clamp(34px,10.5vw,58px);}
+    .love-small{font-size:11px;letter-spacing:2.2px;}
+    .love-replay{padding:12px 24px;bottom:48px;}
+    .love-small{top:calc(50% + 115px);width:92vw;}
+}
+
+.love-close{
+    position:absolute;
+    z-index:5;
+    top:20px;
+    right:25px;
+    border:0;
+    background:none;
+    color:#aaa;
+    font-size:28px;
+    cursor:pointer;
+}
+
+@keyframes fadeUp{
+    from{opacity:0;transform:translateY(20px)}
+    to{opacity:1;transform:translateY(0)}
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- =========================================================
+     SECRET ENTRY
+========================================================= -->
+
+<div id="secretScreen">
+
+    <div class="secret-box">
+
+        <div class="lock">🔐</div>
+
+        <h1>A Little Secret</h1>
+
+        <p>
+            This universe is not for everyone.<br>
+            Enter the date that started it all.
+        </p>
+
+        <input
+            id="secretDate"
+            class="date-input"
+            type="text"
+            placeholder="DD / MM / YYYY"
+            maxlength="10"
+        >
+
+        <br>
+
+        <button class="enter-btn" onclick="unlockUniverse()">
+            ENTER ✦
+        </button>
+
+        <div id="error" class="error"></div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     ACCESS GRANTED
+========================================================= -->
+
+<div id="access">
+
+    <div class="access-content">
+
+        <h1>ACCESS GRANTED ✨</h1>
+
+        <p>
+            Welcome to the universe of<br>
+            <strong>DPM 💞 DUST</strong>
+        </p>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     STARS
+========================================================= -->
+
+<div id="stars"></div>
+<div id="stars2"></div>
+<div id="stars3"></div>
+
+<div class="shooting-star" id="shootingStar"></div>
+
+
+<!-- =========================================================
+     MAIN WEBSITE
+========================================================= -->
+
+<div id="main">
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+        <div class="moon"></div>
+
+        <div class="hero-content">
+
+            <div class="small-date">
+                04 • 10 • 2022
+            </div>
+
+            <h1>DPM 💞 DUST</h1>
+
+            <p class="hero-sub">
+                Some stars are meant to meet.<br>
+                Some dates are meant to be remembered.
+            </p>
+
+            <button
+                class="main-btn"
+                onclick="document.getElementById('turning').scrollIntoView()"
+            >
+                ✦ Enter Our Universe
+            </button>
+
+            <div class="scroll-text">
+                SCROLL TO EXPLORE ↓
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- TURNING POINT -->
+
+    <section id="turning" class="turning">
+
+        <div class="container">
+
+            <div class="big-star"></div>
+
+            <div class="small-date">
+                THE TURNING POINT
+            </div>
+
+            <h2>04 October 2022</h2>
+
+            <div class="turning-date">
+                THE DAY IT ALL STARTED
+            </div>
+
+            <p class="turning-text">
+                It started with a simple conversation...
+                We didn't know where that conversation would take us,
+                but somehow, that ordinary day became one of the most
+                important dates in our universe.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- FIRST MESSAGE -->
+
+    <section class="message-section">
+
+        <div class="container">
+
+            <div class="section-title">
+
+                <span>THE FIRST CHAPTER</span>
+
+                <h2>Where It All Started</h2>
+
+                <p>
+                    A few words that became the beginning of everything.
+                </p>
+
+            </div>
+
+
+            <div class="chat">
+
+                <!-- CHANGE THESE MESSAGES -->
+
+               <div class="message left">
+                    <small>DPM 💞</small>
+                    অনিক না?...
+                </div>
+
+                <div class="message right">
+                    <small>DUST 💞</small>
+                    Hm<br>U? <br>U ke?...
+                </div>
+
+                <div class="message left">
+                    <small>DPM 💞</small>
+                    এক্সাম এ তোমার পাশে আমার সিট ছিল ...
+                </div>
+
+                <div class="message right">
+                    <small>DUST 💞</small>
+                    Ooo <br>Iza?...
+                </div>
+                <div class="message left">
+                    <small>DPM 💞</small>
+                    Haaa...
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- PHOTO SECTION -->
+
+    <section>
+
+        <div class="container">
+
+            <div class="section-title">
+
+                <span>A FEW STARS</span>
+
+                <h2>Our Memories</h2>
+
+                <p>
+                    Not every memory needs to be here.<br>
+                    Just the ones worth keeping.
+                </p>
+
+            </div>
+
+
+            <div class="gallery">
+
+                <!--
+                PUT YOUR IMAGES IN THE SAME FOLDER:
+
+                photo1.jpg
+                photo2.jpg
+                photo3.jpg
+                photo4.jpg
+                -->
+
+                <div class="photo-card" onclick="openPhoto('photo1.jpg')">
+
+                    <img src="photo1.jpg" alt="Memory">
+
+                    <div class="photo-caption">
+                        A memory worth keeping. ❤️
+                    </div>
+
+                </div>
+
+
+                <div class="photo-card" onclick="openPhoto('photo2.jpg')">
+
+                    <img src="photo2.jpg" alt="Memory">
+
+                    <div class="photo-caption">
+                        One of our little moments.
+                    </div>
+
+                </div>
+
+
+                <div class="photo-card" onclick="openPhoto('photo3.jpg')">
+
+                    <img src="photo3.jpg" alt="Memory">
+
+                    <div class="photo-caption">
+                        Another star in our universe.
+                    </div>
+
+                </div>
+
+
+                <div class="photo-card" onclick="openPhoto('photo4.jpg')">
+
+                    <img src="photo4.jpg" alt="Memory">
+
+                    <div class="photo-caption">
+                        Still one of my favourites. ✨
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- TIMELINE -->
+
+    <section>
+
+        <div class="container">
+
+            <div class="section-title">
+
+                <span>THE JOURNEY</span>
+
+                <h2>2022 → 2026</h2>
+
+                <p>
+                    Four years. One story.
+                </p>
+
+            </div>
+
+
+            <div class="timeline">
+
+                <div class="timeline-item">
+
+                    <div class="timeline-dot"></div>
+
+                    <div class="timeline-year">2022</div>
+
+                    <div class="timeline-text">
+                        The beginning.<br>
+                        The turning point.
+                    </div>
+
+                </div>
+
+
+                <div class="timeline-item">
+
+                    <div class="timeline-dot"></div>
+
+                    <div class="timeline-year">2023</div>
+
+                    <div class="timeline-text">
+                        More conversations.<br>
+                        More memories.
+                    </div>
+
+                </div>
+
+
+                <div class="timeline-item">
+
+                    <div class="timeline-dot"></div>
+
+                    <div class="timeline-year">2024</div>
+
+                    <div class="timeline-text">
+                        Another chapter<br>
+                        of the journey.
+                    </div>
+
+                </div>
+
+
+                <div class="timeline-item">
+
+                    <div class="timeline-dot"></div>
+
+                    <div class="timeline-year">2025</div>
+
+                    <div class="timeline-text">
+                        Still writing<br>
+                        our story.
+                    </div>
+
+                </div>
+
+
+                <div class="timeline-item">
+
+                    <div class="timeline-dot"></div>
+
+                    <div class="timeline-year">2026</div>
+
+                    <div class="timeline-text">
+                        Four years.<br>
+                        And still counting. ❤️
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- COUNTDOWN -->
+
+    <section>
+
+        <div class="container" style="text-align:center">
+
+            <div class="section-title">
+
+                <span>UNTIL THE DAY</span>
+
+                <h2>04 October 2026</h2>
+
+                <p>
+                    Our 4th anniversary.
+                </p>
+
+            </div>
+
+
+            <div class="countdown">
+
+                <div class="time-box">
+                    <strong id="days">00</strong>
+                    <span>DAYS</span>
+                </div>
+
+                <div class="time-box">
+                    <strong id="hours">00</strong>
+                    <span>HOURS</span>
+                </div>
+
+                <div class="time-box">
+                    <strong id="minutes">00</strong>
+                    <span>MINUTES</span>
+                </div>
+
+                <div class="time-box">
+                    <strong id="seconds">00</strong>
+                    <span>SECONDS</span>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- HIDDEN STARS -->
+
+    <section>
+
+        <div class="container">
+
+            <div class="section-title">
+
+                <span>LOOK CLOSER</span>
+
+                <h2>Find Our Little Stars</h2>
+
+                <p>
+                    Some memories are hidden among the stars.
+                </p>
+
+            </div>
+
+
+            <div class="secret-stars">
+
+                <span
+                    class="hidden-star"
+                    style="top:15%;left:15%"
+                    onclick="showHiddenMessage(0)"
+                >✦</span>
+
+                <span
+                    class="hidden-star"
+                    style="top:40%;left:70%"
+                    onclick="showHiddenMessage(1)"
+                >✧</span>
+
+                <span
+                    class="hidden-star"
+                    style="top:75%;left:30%"
+                    onclick="showHiddenMessage(2)"
+                >★</span>
+
+                <span
+                    class="hidden-star"
+                    style="top:25%;left:85%"
+                    onclick="showHiddenMessage(3)"
+                >✦</span>
+
+                <span
+                    class="hidden-star"
+                    style="top:80%;left:80%"
+                    onclick="showHiddenMessage(4)"
+                >✧</span>
+
+            </div>
+
+            <div id="hiddenMessage"></div>
+
+        </div>
+
+    </section>
+
+
+    <!-- FINAL -->
+
+    <section class="final">
+
+        <div class="final-stars"></div>
+
+        <div class="container">
+
+            <div class="small-date">
+                04 • 10 • 2026
+            </div>
+
+            <div class="four">
+                4
+            </div>
+
+            <h2>YEARS</h2>
+
+            <p class="final-message">
+
+                4 years.<br>
+                Countless memories.<br>
+                One turning point.<br><br>
+
+                Some stars are meant to meet.<br>
+                Ours met on 4 October 2022. ❤️<br><br>
+
+                And this isn't the end...<br>
+                It's just another chapter.
+
+            </p>
+</div>
+
+
+    </section>
+
+    <!-- =========================================================
+         ONE LAST SECRET
+    ========================================================= -->
+
+    <section class="final-secret-area">
+
+        <div class="container">
+
+            <div class="secret-label">ONE LAST SECRET</div>
+
+            <h3>There is one more thing...</h3>
+
+            <p>
+                Something I wanted to say,<br>
+                but only after you found your way this far. 🥹
+            </p>
+
+            <button class="final-secret-btn" onclick="openFinalCode()">
+                ✦ OPEN ONE LAST SECRET ✦
+            </button>
+
+            <div class="final-code-box" id="finalCodeBox">
+
+                <input
+                    class="final-code-input"
+                    id="finalSecretInput"
+                    type="text"
+                    placeholder="Enter the secret word"
+                    autocomplete="off"
+                >
+
+                <button class="final-code-submit" onclick="checkFinalSecret()">
+                    UNLOCK 💌
+                </button>
+
+                <div class="final-code-error" id="finalSecretError"></div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <footer>
+        DPM 💞 DUST — Our Universe
+        <br>
+        04.10.2022 → 04.10.2026
+    </footer>
+
+</div>
+
+
+
+<!-- =========================================================
+     REQUEST LETTER
+========================================================= -->
+
+<div id="letterOverlay">
+
+    <div class="letter-stage">
+
+        <div class="envelope-wrap" id="envelopeWrap">
+
+            <div class="envelope" id="requestEnvelope">
+
+                <div class="envelope-back"></div>
+                <div class="envelope-paper"></div>
+                <div class="envelope-flap"></div>
+                <div class="envelope-heart">💌</div>
+
+            </div>
+
+            <div class="envelope-hint">
+                Tap the envelope to open my little request… 🥹
+            </div>
+
+        </div>
+
+
+        <div class="letter-paper" id="requestPaper">
+
+            <button class="letter-close" onclick="closeLetter()">×</button>
+
+            <div class="letter-title">
+                💌 A Little Request to My Dust
+            </div>
+
+            <div class="letter-content">
+
+                <p><strong>Dear DPM,</strong></p>
+
+                <p>একটা ছোট্ট request ছিল… 🥹</p>
+
+                <p>
+                    সেদিন একটা matter-এ তোমাকে তোমার আসল নাম ধরে ডেকেছিলাম।<br>
+                    হয়তো আমার কাছে সেটা এতটা বড় কিছু ছিল না, কিন্তু তোমার কাছে সেটা যে কতটা hurtful ছিল—সেটা তখন হয়তো ঠিকভাবে বুঝতে পারিনি। 🥺
+                </p>
+
+                <p>কিন্তু এখন একটা জিনিস খুব miss করি…</p>
+
+                <p class="highlight">
+                    তোমার মুখে “Dust” কথাটা। 🥹💗
+                </p>
+
+                <p>
+                    জানি, তুমি রাগ করেছিলে।<br>
+                    জানি, hurt হয়েছিলে।<br>
+                    আর honestly, তোমাকে hurt করার জন্য আমি সত্যিই sorry. ❤️‍🩹
+                </p>
+
+                <p>
+                            <p>তুমি আমাকে যেকোনো নামেই ডাকতে পারো…<br>
+
+                    কিন্তু <strong>“Dust”</strong> বলে ডাকলে যে feelingটা হয়, সেটা অন্য কোনো নামের মধ্যে নেই।<br>
+                    কারণ “Dust” শুধু একটা নাম না—<br>
+                    <strong>এটা আমার কাছে একটা আলাদা পরিচয়।</strong> 💞
+                </p>
+
+                <p>তাই আজকে এই ছোট্ট application… 📝🥹</p>
+
+                <p class="request">আমার Request:</p>
+
+                <p class="request">
+                    <strong>
+                        Dear DPM,<br>
+                        Please, আবার আমাকে “Dust” বলে ডাকো না? 🥹👉👈
+                    </strong>
+                </p>
+
+                <p>
+                    আমি promise করছি, তোমাকে hurt করার মতো কিছু ইচ্ছা করে আর করব না।<br>
+                    আর যদি কখনো ভুল করে ফেলি, তাহলে রাগ করতে পারো…<br>
+                    কিন্তু <strong>“Dust” ডাকাটা permanently বন্ধ করে দিও না।</strong> 🥺
+                </p>
+
+                <p>কারণ সত্যি বলতে—</p>
+
+                <p class="highlight">
+                    “DPM 💞 DUST”<br>
+                    এই দুটো নাম একসাথে দেখলেই আমার মুখে একটা smile চলে আসে। ❤️
+                </p>
+
+                <p>
+                    So…<br>
+                    একটা ছোট্ট <strong>YES</strong> দিলেই application approved. 🥹💌
+                </p>
+
+                <p><strong>Waiting for your answer…</strong></p>
+
+                <p>
+                    <strong>Yours,</strong><br>
+                    <strong>DPM-এর Dust-এর পক্ষ থেকে একজন guilty মানুষ 🥹❤️</strong>
+                </p>
+
+                <div class="ps">
+                    <strong>P.S.</strong><br>
+                    একবার শুধু বলো—
+
+                    <blockquote>“Dust…” 🥹💞</blockquote>
+
+                    তারপর আর কিছু চাই না। 🌙✨
+                </div>
+
+                <button class="letter-approve" onclick="approveDust()">
+                    ❤️ APPROVE — Call Me DUST
+                </button>
+
+                <button class="letter-continue" onclick="continueToLove()">
+                    💗 Continue Our Story
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     ANIMATED LOVE REVEAL
+========================================================= -->
+
+<div id="loveReveal">
+
+    <button class="love-close" onclick="closeLoveReveal()">×</button>
+
+    <canvas id="loveCanvas"></canvas>
+
+    <div class="love-text" id="loveText"></div>
+
+    <div class="love-small" id="loveSmall">
+        some stories are written in the stars ✨
+    </div>
+
+    <button class="love-replay" id="loveReplay" onclick="replayOurStory()">
+        ↻ Replay Our Story
+    </button>
+
+</div>
+
+
+<!-- =========================================================
+     LIGHTBOX
+========================================================= -->
+
+<div id="lightbox" onclick="closePhoto()">
+
+    <span class="close-lightbox">×</span>
+
+    <img id="lightboxImage" src="" alt="Memory">
+
+</div>
+
+
+<!-- =========================================================
+     MUSIC
+========================================================= -->
+
+<!--
+PUT YOUR MUSIC FILE IN THE SAME FOLDER:
+
+music.mp3
+-->
+
+<audio id="music" loop>
+    <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<button class="music-btn" onclick="toggleMusic()" id="musicButton">
+    🎵
+</button>
+
+
+<script>
+
+/* =========================================================
+   CREATE STARS
+========================================================= */
+
+function createStars(containerId, count){
+
+    const container = document.getElementById(containerId);
+
+    for(let i=0;i<count;i++){
+
+        const star = document.createElement("div");
+
+        star.className = "star";
+
+        star.style.left = Math.random()*100 + "%";
+        star.style.top = Math.random()*100 + "%";
+
+        const size = Math.random()*2 + 1;
+
+        star.style.width = size + "px";
+        star.style.height = size + "px";
+
+        star.style.animationDelay =
+            Math.random()*4 + "s";
+
+        container.appendChild(star);
+    }
+}
+
+createStars("stars",100);
+createStars("stars2",60);
+createStars("stars3",40);
+
+
+/* =========================================================
+   SECRET UNLOCK
+========================================================= */
+
+function unlockUniverse(){
+
+    const input =
+        document.getElementById("secretDate").value.trim();
+
+    const correctDate = "04/10/2022";
+
+    if(input === correctDate){
+
+        const secret =
+            document.getElementById("secretScreen");
+
+        const access =
+            document.getElementById("access");
+
+        secret.classList.add("hide");
+
+        access.classList.add("show");
+
+        setTimeout(()=>{
+
+            document
+                .getElementById("main")
+                .classList.add("show");
+
+            startMusic();
+
+        },2200);
+
+    }else{
+
+        document.getElementById("error").innerHTML =
+            "Hmm... that's not the date. 🌙<br>" +
+            "Think about the day it all began...";
+
+    }
+}
+
+
+/* Allow Enter key */
+
+document
+.getElementById("secretDate")
+.addEventListener("keydown",function(e){
+
+    if(e.key === "Enter"){
+        unlockUniverse();
+    }
+
+});
+
+
+/* =========================================================
+   SHOOTING STARS
+========================================================= */
+
+function shootingStar(){
+
+    const star =
+        document.getElementById("shootingStar");
+
+    star.style.left =
+        (Math.random()*80 + 20) + "%";
+
+    star.style.top =
+        (Math.random()*30 + 5) + "%";
+
+    star.classList.remove("active");
+
+    void star.offsetWidth;
+
+    star.classList.add("active");
+}
+
+setInterval(shootingStar,7000);
+
+
+/* =========================================================
+   COUNTDOWN
+========================================================= */
+
+function updateCountdown(){
+
+    const target =
+        new Date("October 4, 2026 00:00:00").getTime();
+
+    const now =
+        new Date().getTime();
+
+    const difference = target-now;
+
+    if(difference <= 0){
+
+        document.getElementById("days").innerText="00";
+        document.getElementById("hours").innerText="00";
+        document.getElementById("minutes").innerText="00";
+        document.getElementById("seconds").innerText="00";
+
+        return;
+    }
+
+    const days =
+        Math.floor(
+            difference/(1000*60*60*24)
+        );
+
+    const hours =
+        Math.floor(
+            (difference/(1000*60*60))%24
+        );
+
+    const minutes =
+        Math.floor(
+            (difference/(1000*60))%60
+        );
+
+    const seconds =
+        Math.floor(
+            (difference/1000)%60
+        );
+
+    document.getElementById("days").innerText =
+        String(days).padStart(2,"0");
+
+    document.getElementById("hours").innerText =
+        String(hours).padStart(2,"0");
+
+    document.getElementById("minutes").innerText =
+        String(minutes).padStart(2,"0");
+
+    document.getElementById("seconds").innerText =
+        String(seconds).padStart(2,"0");
+}
+
+setInterval(updateCountdown,1000);
+updateCountdown();
+
+
+/* =========================================================
+   PHOTO LIGHTBOX
+========================================================= */
+
+function openPhoto(src){
+
+    document
+        .getElementById("lightboxImage")
+        .src = src;
+
+    document
+        .getElementById("lightbox")
+        .classList.add("show");
+}
+
+function closePhoto(){
+
+    document
+        .getElementById("lightbox")
+        .classList.remove("show");
+}
+
+
+/* =========================================================
+   HIDDEN STAR MESSAGES
+========================================================= */
+
+const hiddenMessages = [
+
+    "You found one of our little stars. ✨",
+
+    "Some moments are small, but unforgettable. ❤️",
+
+    "If you are reading this, you're already part of the story.",
+
+    "A universe full of stars, but only one turning point. 🌙",
+
+    "Still here. Still us. 💞"
+
+];
+
+function showHiddenMessage(index){
+
+    document.getElementById("hiddenMessage").innerText =
+        hiddenMessages[index];
+
+}
+
+
+/* =========================================================
+   MUSIC
+========================================================= */
+
+const music =
+    document.getElementById("music");
+
+let musicPlaying = false;
+
+function startMusic(){
+
+    music.volume = 0.35;
+
+    music.play()
+        .then(()=>{
+            musicPlaying=true;
+            document.getElementById("musicButton").innerText="🔊";
+        })
+        .catch(()=>{
+            console.log("Music requires user interaction.");
+        });
+}
+
+function toggleMusic(){
+
+    if(music.paused){
+
+        music.play();
+
+        musicPlaying=true;
+
+        document.getElementById("musicButton").innerText="🔊";
+
+    }else{
+
+        music.pause();
+
+        musicPlaying=false;
+
+        document.getElementById("musicButton").innerText="🎵";
+
+    }
+}
+
+
+/* =========================================================
+   ESC KEY FOR PHOTO
+========================================================= */
+
+document.addEventListener("keydown",function(e){
+
+    if(e.key === "Escape"){
+        closePhoto();
+    }
+
+});
+
+
+/* =========================================================
+   FINAL SECRET -> REQUEST LETTER -> ANIMATED LOVE
+========================================================= */
+
+const FINAL_SECRET_CODE = "DPM4DUST";
+
+function openFinalCode(){
+    document.getElementById("finalCodeBox").classList.add("show");
+    setTimeout(()=>{
+        document.getElementById("finalSecretInput").focus();
+    },100);
+}
+
+function checkFinalSecret(){
+
+    const input =
+        document.getElementById("finalSecretInput").value.trim();
+
+    const error =
+        document.getElementById("finalSecretError");
+
+    if(input.toUpperCase() === FINAL_SECRET_CODE){
+
+        error.innerText = "";
+
+        document.getElementById("letterOverlay")
+            .classList.add("show");
+
+        document.body.style.overflow = "hidden";
+
+        document.getElementById("requestEnvelope")
+            .classList.remove("open");
+
+        document.getElementById("envelopeWrap")
+            .style.display = "flex";
+
+        document.getElementById("requestPaper")
+            .classList.remove("show");
+
+    }else{
+
+        error.innerText =
+            "Not quite... our universe knows the answer. ❤️";
+
+    }
+}
+
+document.getElementById("finalSecretInput")
+.addEventListener("keydown",function(e){
+
+    if(e.key === "Enter"){
+        checkFinalSecret();
+    }
+
+});
+
+
+document.getElementById("requestEnvelope")
+.addEventListener("click",function(){
+
+    this.classList.add("open");
+
+    setTimeout(()=>{
+
+        document.getElementById("envelopeWrap")
+            .style.display = "none";
+
+        document.getElementById("requestPaper")
+            .classList.add("show");
+
+    },950);
+
+});
+
+
+function closeLetter(){
+
+    document.getElementById("letterOverlay")
+        .classList.remove("show");
+
+    document.body.style.overflow = "";
+
+}
+
+
+// =========================================================
+// WHATSAPP APPROVAL
+// Put your WhatsApp number here with country code, without + or spaces.
+// Example: Bangladesh = 8801XXXXXXXXX
+//          India = 91XXXXXXXXXX
+// =========================================================
+const WHATSAPP_NUMBER = "+8801728911896";
+
+function approveDust(){
+
+    if(WHATSAPP_NUMBER === "YOUR_NUMBER_HERE"){
+        alert("Please add your WhatsApp number in WHATSAPP_NUMBER first. ❤️");
+        return;
+    }
+
+    const message = encodeURIComponent("DUST💞");
+    const url = "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + message;
+
+    window.open(url, "_blank");
+}
+
+
+function continueToLove(){
+
+    document.getElementById("letterOverlay")
+        .classList.remove("show");
+
+    setTimeout(()=>{
+
+        document.getElementById("loveReveal")
+            .classList.add("show");
+
+        document.body.style.overflow = "hidden";
+
+        startLoveAnimation();
+
+    },650);
+
+}
+
+
+/* =========================================================
+   PARTICLE HEART
+========================================================= */
+
+let loveAnimationStarted = false;
+
+function startLoveAnimation(){
+
+    const text = document.getElementById("loveText");
+    const small = document.getElementById("loveSmall");
+    const replay = document.getElementById("loveReplay");
+
+    text.classList.remove("show");
+    small.classList.remove("show");
+    replay.classList.remove("show");
+
+    drawHeart();
+
+    // The final moment is intentionally the simple, dreamy
+    // "I LOVE YOU ❤️" scene shown in the reference image.
+    const lines = [
+        "I",
+        "I LOVE",
+        "I LOVE YOU ❤️",
+        "DPM 💞 DUST",
+        "In this universe,\nyou're my favorite star.",
+        "04 • 10 • 2026",
+        "4 years, and still you. ❤️"
+    ];
+
+    let index = 0;
+
+    function showNext(){
+
+        text.classList.remove("show");
+
+        setTimeout(()=>{
+
+            text.classList.remove("final-line");
+            text.innerText = lines[index];
+
+            if(index === lines.length - 1){
+                text.classList.add("final-line");
+            }
+
+            text.classList.add("show");
+            index++;
+
+            if(index < lines.length){
+                setTimeout(showNext,2200);
+            }else{
+                // Keep the exact final LOVE scene on screen.
+                setTimeout(()=>{
+                    small.classList.add("show");
+                    setTimeout(()=>replay.classList.add("show"),900);
+                },1500);
+            }
+
+        },650);
+    }
+
+    showNext();
+}
+
+function drawHeart(){
+
+    const canvas = document.getElementById("loveCanvas");
+    const ctx = canvas.getContext("2d");
+
+    function resize(){
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+
+    resize();
+
+    const particles = [];
+
+    // Sparse glowing dots — deliberately NOT a solid/dense heart.
+    // This matches the reference: a delicate pink heart outline
+    // surrounding the "I LOVE YOU ❤️" text.
+    const heartCount = 82;
+
+    for(let i=0;i<heartCount;i++){
+
+        const t = (i/heartCount) * Math.PI * 2;
+
+        const hx = 16 * Math.pow(Math.sin(t),3);
+        const hy = 13 * Math.cos(t)
+                 - 5 * Math.cos(2*t)
+                 - 2 * Math.cos(3*t)
+                 - Math.cos(4*t);
+
+        const scale = Math.min(window.innerWidth,window.innerHeight) * 0.0215;
+
+        particles.push({
+            x:Math.random()*canvas.width,
+            y:Math.random()*canvas.height,
+            tx:canvas.width/2 + hx*scale + (Math.random()-.5)*3,
+            ty:canvas.height/2 - hy*scale - 5 + (Math.random()-.5)*3,
+            size:Math.random()*1.25 + 1.15,
+            delay:Math.random()*1.2,
+            drift:(Math.random()-.5)*10
+        });
+    }
+
+    // A small number of free-floating stars, like the reference image.
+    for(let i=0;i<28;i++){
+        particles.push({
+            x:Math.random()*canvas.width,
+            y:Math.random()*canvas.height,
+            tx:Math.random()*canvas.width,
+            ty:Math.random()*canvas.height,
+            size:Math.random()*1.1+.7,
+            delay:Math.random()*1.8,
+            drift:(Math.random()-.5)*8,
+            soft:true
+        });
+    }
+
+    const startTime=performance.now();
+
+    function animate(){
+
+        const elapsed=(performance.now()-startTime)/1000;
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+
+        particles.forEach(p=>{
+
+            const raw=(elapsed-p.delay)/1.8;
+            const progress=Math.max(0,Math.min(1,raw));
+            const ease=1-Math.pow(1-progress,3);
+
+            const x=p.x+(p.tx-p.x)*ease+
+                Math.sin(elapsed*1.8+p.delay)*p.drift*(1-progress);
+            const y=p.y+(p.ty-p.y)*ease;
+
+            ctx.beginPath();
+            ctx.arc(x,y,p.size,0,Math.PI*2);
+            ctx.fillStyle=p.soft
+                ? "rgba(255,180,225,.55)"
+                : "rgba(255,155,220,.92)";
+            ctx.shadowColor="#ff8fd8";
+            ctx.shadowBlur=p.soft ? 5 : 9;
+            ctx.fill();
+        });
+
+        requestAnimationFrame(animate);
+    }
+
+    animate();
+}
+function replayOurStory(){
+
+    const love = document.getElementById("loveReveal");
+
+    love.classList.remove("show");
+
+    document.getElementById("loveText").classList.remove("show");
+    document.getElementById("loveSmall").classList.remove("show");
+    document.getElementById("loveReplay").classList.remove("show");
+
+    document.body.style.overflow = "";
+
+    // Replay means replay the website from the beginning.
+    setTimeout(()=>{
+
+        window.scrollTo({
+            top:0,
+            behavior:"smooth"
+        });
+
+    },350);
+}
+
+
+function closeLoveReveal(){
+
+    document.getElementById("loveReveal")
+        .classList.remove("show");
+
+    document.getElementById("loveReplay")
+        .classList.remove("show");
+
+    document.body.style.overflow = "";
+
+}
+
+</script>
+
+</body>
+</html>
