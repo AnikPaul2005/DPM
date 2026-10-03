@@ -1253,10 +1253,503 @@ footer{
     to{opacity:1;transform:translateY(0)}
 }
 
+/* =========================================================
+   WAITING COUNTDOWN SCREEN
+========================================================= */
+
+#waitingScreen{
+    position:fixed;
+    inset:0;
+    z-index:99999;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    background:
+        radial-gradient(circle at center,
+        rgba(120,80,180,.18),
+        transparent 45%),
+        #05030b;
+    color:white;
+}
+
+#waitingScreen.show{
+    display:flex;
+}
+
+.waiting-content{
+    width:min(90%,700px);
+    padding:30px;
+}
+
+.waiting-small{
+    font-size:.8rem;
+    letter-spacing:4px;
+    opacity:.65;
+    margin-bottom:25px;
+}
+
+.waiting-content h1{
+    font-size:clamp(2rem,6vw,4.5rem);
+    letter-spacing:6px;
+    margin:0;
+}
+
+.waiting-content p{
+    margin:20px 0;
+    opacity:.75;
+}
+
+.waiting-date{
+    font-size:1.1rem;
+    letter-spacing:5px;
+    margin:25px 0;
+}
+
+.waiting-countdown{
+    display:flex;
+    justify-content:center;
+    gap:15px;
+    flex-wrap:wrap;
+    margin:30px 0;
+}
+
+.waiting-countdown > div{
+    min-width:90px;
+    padding:18px 12px;
+    border:1px solid rgba(255,255,255,.15);
+    border-radius:15px;
+    background:rgba(255,255,255,.04);
+    backdrop-filter:blur(10px);
+}
+
+.waiting-countdown span{
+    display:block;
+    font-size:2rem;
+    font-weight:600;
+}
+
+.waiting-countdown small{
+    display:block;
+    margin-top:6px;
+    font-size:.65rem;
+    letter-spacing:2px;
+    opacity:.6;
+}
+
+.waiting-message{
+    margin-top:35px;
+    font-size:.85rem;
+    opacity:.5;
+}
+
+/* =========================================================
+   DPM 💞 DUST — UNIVERSE TRANSITION
+========================================================= */
+
+#universeTransition{
+    position:fixed;
+    inset:0;
+    z-index:100000;
+    display:none;
+    overflow:hidden;
+
+    background:
+        radial-gradient(circle at 50% 45%,
+        rgba(180,90,255,.35),
+        transparent 25%),
+        radial-gradient(circle at 50% 50%,
+        #241044 0%,
+        #080313 45%,
+        #020107 100%);
+}
+
+#universeTransition.show{
+    display:block;
+}
+
+.universe-glow{
+    position:absolute;
+    width:80vw;
+    height:80vw;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+    border-radius:50%;
+
+    background:
+        radial-gradient(ellipse,
+        rgba(255,120,220,.30),
+        rgba(120,80,255,.16) 30%,
+        transparent 65%);
+
+    filter:blur(20px);
+
+    animation:
+        galaxyPulse 3s ease-in-out infinite alternate;
+}
+
+@keyframes galaxyPulse{
+
+    from{
+        transform:
+            translate(-50%,-50%)
+            scale(.8)
+            rotate(0deg);
+    }
+
+    to{
+        transform:
+            translate(-50%,-50%)
+            scale(1.3)
+            rotate(20deg);
+    }
+}
+
+.universe-stars{
+    position:absolute;
+    inset:-50%;
+
+    background-image:
+        radial-gradient(circle,
+        white 1px,
+        transparent 1.5px),
+        radial-gradient(circle,
+        #ffc8f0 1px,
+        transparent 1.5px);
+
+    background-size:
+        90px 90px,
+        140px 140px;
+
+    animation:
+        starTravel 5s linear infinite;
+
+    opacity:.8;
+}
+
+@keyframes starTravel{
+
+    from{
+        transform:scale(.7) rotate(0deg);
+    }
+
+    to{
+        transform:scale(1.8) rotate(8deg);
+    }
+}
+
+.universe-couple{
+    position:absolute;
+
+    width:min(70vw,600px);
+
+    left:50%;
+    top:50%;
+
+    transform:
+        translate(-50%,-50%)
+        scale(.65);
+
+    opacity:0;
+
+    filter:
+        drop-shadow(0 0 15px rgba(255,180,240,.7))
+        drop-shadow(0 0 45px rgba(160,90,255,.6));
+
+    animation:
+        coupleEnter 2s ease-out forwards,
+        coupleFloat 2s ease-in-out 2s infinite alternate;
+}
+
+@keyframes coupleEnter{
+
+    0%{
+        opacity:0;
+
+        transform:
+            translate(-50%,-50%)
+            scale(.25)
+            rotate(-4deg);
+    }
+
+    60%{
+        opacity:1;
+    }
+
+    100%{
+        opacity:1;
+
+        transform:
+            translate(-50%,-50%)
+            scale(.75)
+            rotate(0deg);
+    }
+}
+
+@keyframes coupleFloat{
+
+    from{
+        margin-top:0;
+    }
+
+    to{
+        margin-top:-18px;
+    }
+}
+
+#universeTransition.fly
+.universe-stars{
+    animation:
+        starZoom 3s
+        cubic-bezier(.2,.8,.2,1)
+        forwards;
+}
+
+#universeTransition.fly
+.universe-glow{
+    animation:
+        galaxyZoom 3s ease-in forwards;
+}
+
+#universeTransition.fly
+.universe-couple{
+    animation:
+        coupleFly 3s
+        cubic-bezier(.7,0,.9,.3)
+        forwards;
+}
+
+@keyframes starZoom{
+
+    from{
+        transform:scale(1);
+        opacity:.8;
+    }
+
+    to{
+        transform:scale(8);
+        opacity:0;
+    }
+}
+
+@keyframes galaxyZoom{
+
+    from{
+        transform:
+            translate(-50%,-50%)
+            scale(1);
+    }
+
+    to{
+        transform:
+            translate(-50%,-50%)
+            scale(7);
+
+        opacity:0;
+    }
+}
+
+@keyframes coupleFly{
+
+    0%{
+        opacity:1;
+
+        transform:
+            translate(-50%,-50%)
+            scale(.75);
+    }
+
+    55%{
+        opacity:1;
+
+        transform:
+            translate(-50%,-50%)
+            scale(1.1);
+    }
+
+    100%{
+        opacity:0;
+
+        transform:
+            translate(-50%,-50%)
+            scale(5);
+    }
+}
+
+.universe-title{
+    position:absolute;
+
+    left:50%;
+    top:50%;
+
+    transform:
+        translate(-50%,-50%)
+        scale(.7);
+
+    text-align:center;
+
+    color:white;
+
+    opacity:0;
+
+    width:90%;
+
+    z-index:5;
+}
+
+#universeTransition.title-show
+.universe-title{
+    animation:
+        titleReveal 2s ease forwards;
+}
+
+.universe-title small{
+    display:block;
+
+    letter-spacing:5px;
+
+    opacity:.7;
+
+    margin-bottom:18px;
+}
+
+.universe-title h1{
+    margin:0;
+
+    font-size:
+        clamp(2.5rem,8vw,6rem);
+
+    letter-spacing:4px;
+
+    text-shadow:
+        0 0 15px #ff9bdd,
+        0 0 45px rgba(180,100,255,.8);
+}
+
+@keyframes titleReveal{
+
+    from{
+        opacity:0;
+
+        transform:
+            translate(-50%,-50%)
+            scale(.7);
+    }
+
+    to{
+        opacity:1;
+
+        transform:
+            translate(-50%,-50%)
+            scale(1);
+    }
+}
+
+@media(max-width:600px){
+
+    .universe-couple{
+        width:88vw;
+    }
+
+    .universe-title h1{
+        font-size:
+            clamp(2.2rem,11vw,4rem);
+    }
+}
+
+
 </style>
 </head>
 
 <body>
+
+<!-- WAITING COUNTDOWN SCREEN -->
+     <div id="waitingScreen">
+
+    <div class="waiting-content">
+
+        <div class="waiting-small">
+            ✦ SOMETHING IS WAITING FOR YOU ✦
+        </div>
+
+        <h1>OUR UNIVERSE</h1>
+
+        <p>
+            The time hasn't come yet... ❤️
+        </p>
+
+        <div class="waiting-date">
+            04 • 10 • 2026
+        </div>
+
+        <div class="waiting-countdown">
+
+            <div>
+                <span id="waitDays">00</span>
+                <small>DAYS</small>
+            </div>
+
+            <div>
+                <span id="waitHours">00</span>
+                <small>HOURS</small>
+            </div>
+
+            <div>
+                <span id="waitMinutes">00</span>
+                <small>MINUTES</small>
+            </div>
+
+            <div>
+                <span id="waitSeconds">00</span>
+                <small>SECONDS</small>
+            </div>
+
+        </div>
+
+        <div class="waiting-message">
+            Come back when the stars align... 🌙
+        </div>
+
+    </div>
+
+</div>
+
+<!-- =========================================================
+     DPM 💞 DUST UNIVERSE TRANSITION
+========================================================= -->
+
+<div id="universeTransition">
+
+    <div class="universe-stars"></div>
+
+    <div class="universe-glow"></div>
+
+    <img
+        src="dpm-dust.jpg"
+        class="universe-couple"
+        alt="DPM and DUST"
+    >
+
+    <div class="universe-title">
+
+        <small>
+            ✦ AND TOGETHER ✦
+        </small>
+
+        <h1>
+            OUR UNIVERSE
+        </h1>
+
+        <small>
+            DPM 💞 DUST
+        </small>
+
+    </div>
+
+</div>
+
+
 
 <!-- =========================================================
      SECRET ENTRY
@@ -2064,22 +2557,10 @@ function unlockUniverse(){
         const secret =
             document.getElementById("secretScreen");
 
-        const access =
-            document.getElementById("access");
-
         secret.classList.add("hide");
 
-        access.classList.add("show");
-
-        setTimeout(()=>{
-
-            document
-                .getElementById("main")
-                .classList.add("show");
-
-            startMusic();
-
-        },2200);
+        /* Start DPM 💞 DUST animation */
+        startUniverseTransition();
 
     }else{
 
@@ -2609,6 +3090,124 @@ function closeLoveReveal(){
 
     document.body.style.overflow = "";
 
+}
+
+/* =========================================================
+   WAITING SCREEN COUNTDOWN
+========================================================= */
+
+const WAITING_DATE = new Date("October 4, 2026 00:00:00").getTime();
+
+const waitingScreen = document.getElementById("waitingScreen");
+
+function updateWaitingCountdown(){
+
+    const now = new Date().getTime();
+    const difference = WAITING_DATE - now;
+
+    if(difference <= 0){
+
+        // Countdown screen completely disappears
+        waitingScreen.style.display = "none";
+
+        document.body.style.overflow = "";
+
+        return;
+    }
+
+    const days = Math.floor(
+        difference / (1000 * 60 * 60 * 24)
+    );
+
+    const hours = Math.floor(
+        (difference / (1000 * 60 * 60)) % 24
+    );
+
+    const minutes = Math.floor(
+        (difference / (1000 * 60)) % 60
+    );
+
+    const seconds = Math.floor(
+        (difference / 1000) % 60
+    );
+
+    document.getElementById("waitDays").textContent =
+        String(days).padStart(2,"0");
+
+    document.getElementById("waitHours").textContent =
+        String(hours).padStart(2,"0");
+
+    document.getElementById("waitMinutes").textContent =
+        String(minutes).padStart(2,"0");
+
+    document.getElementById("waitSeconds").textContent =
+        String(seconds).padStart(2,"0");
+}
+waitingScreen.classList.add("show");
+document.body.style.overflow = "hidden";
+
+updateWaitingCountdown();
+setInterval(updateWaitingCountdown, 1000);
+
+/* =========================================================
+   DPM 💞 DUST UNIVERSE TRANSITION
+========================================================= */
+
+let universeTransitionStarted = false;
+
+function startUniverseTransition(){
+
+    if(universeTransitionStarted) return;
+
+    universeTransitionStarted = true;
+
+    const transition =
+        document.getElementById("universeTransition");
+
+    /* Show animation */
+    transition.classList.add("show");
+
+    /* After DPM + DUST appear */
+    setTimeout(()=>{
+
+        transition.classList.add("fly");
+
+    },3000);
+
+    /* Show OUR UNIVERSE title */
+    setTimeout(()=>{
+
+        transition.classList.add("title-show");
+
+    },5000);
+
+    /* Animation finished */
+    setTimeout(()=>{
+
+        transition.classList.remove("show");
+        transition.classList.remove("fly");
+        transition.classList.remove("title-show");
+
+        /* ACCESS GRANTED */
+        const access =
+            document.getElementById("access");
+
+        access.classList.add("show");
+
+        /* Then existing website */
+        setTimeout(()=>{
+
+            document
+                .getElementById("main")
+                .classList.add("show");
+
+            document.body.style.overflow = "";
+
+            startMusic();
+
+        },2200);
+
+    },7500);
 }
 
 </script>
